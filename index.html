@@ -1,0 +1,1289 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PinkStock - Sales & Inventory</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(120deg, #f5c5dd, #e99bc7);
+    padding: 25px;
+    color: #252b35;
+}
+
+.container {
+    display: flex;
+    max-width: 1400px;
+    min-height: 90vh;
+    margin: auto;
+    background: #f9fafc;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    background: white;
+    padding: 22px 15px;
+    border-right: 1px solid #eee;
+}
+
+.logo {
+    color: #ed1598;
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.logo span {
+    background: #ed1598;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 9px;
+    margin-right: 8px;
+}
+
+.sidebar button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0;
+    text-align: left;
+    border: none;
+    background: transparent;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.sidebar button:hover,
+.sidebar button.active {
+    background: #fce4f2;
+    color: #ed1598;
+}
+
+.sidebar .bottom {
+    margin-top: 70px;
+}
+
+/* MAIN CONTENT */
+.main {
+    flex: 1;
+    padding: 25px;
+    min-width: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    gap: 12px;
+}
+
+.header h1 {
+    font-size: 23px;
+}
+
+.header button,
+.primary {
+    background: #ed1598;
+    color: white;
+    border: none;
+    padding: 11px 17px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.header button:hover,
+.primary:hover {
+    background: #c90079;
+}
+
+/* DASHBOARD CARDS */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.card {
+    background: white;
+    padding: 18px;
+    border: 1px solid #e9e9ed;
+    border-radius: 10px;
+}
+
+.card h3 {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.number {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 20px 0 5px;
+}
+
+.green {
+    color: #20b66a;
+    font-size: 11px;
+}
+
+.red {
+    color: #e34d66;
+    font-size: 11px;
+}
+
+.small {
+    color: #9299a2;
+    font-size: 11px;
+}
+
+/* MIDDLE SECTION */
+.middle {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.card-title {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.chart {
+    height: 260px;
+    display: flex;
+    align-items: end;
+    justify-content: space-around;
+    gap: 5px;
+    border-bottom: 1px solid #ddd;
+    background: repeating-linear-gradient(
+        to bottom,
+        white 0px,
+        white 48px,
+        #eee 49px
+    );
+}
+
+.bar {
+    width: 14px;
+    background: #dedfe4;
+    border-radius: 3px 3px 0 0;
+}
+
+.bar:nth-child(10) {
+    background: #ed1598;
+}
+
+/* PROMOTION */
+.promotion {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.promo-card {
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.promo-card h2 {
+    margin: 12px 0 5px;
+    font-size: 25px;
+}
+
+.report {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    background: white;
+    border: 1px solid #ed1598;
+    color: #ed1598;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* BOTTOM SECTION */
+.bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.warning {
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.warning strong {
+    font-size: 20px;
+}
+
+.warning button {
+    float: right;
+    padding: 7px 10px;
+    background: #ed1598;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.progress {
+    background: #eee;
+    height: 7px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.progress span {
+    display: block;
+    height: 7px;
+    background: linear-gradient(90deg, #d84cdd, #f5a0d5);
+    border-radius: 10px;
+}
+
+.age {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 17px 0;
+    font-size: 12px;
+}
+
+.age-bar {
+    flex: 1;
+    height: 9px;
+    background: #eee;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.age-bar span {
+    display: block;
+    height: 100%;
+    background: #ed1598;
+}
+
+/* OTHER PAGES */
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+input, select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.toolbar input {
+    flex: 1;
+    min-width: 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 13px;
+}
+
+th, td {
+    text-align: left;
+    padding: 13px 8px;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background: #fff4fa;
+}
+
+table button {
+    background: #ed1598;
+    color: white;
+    border: none;
+    padding: 6px 9px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.status {
+    color: #20a65c;
+    background: #e5f8ed;
+    padding: 5px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+}
+
+.low {
+    color: #d47a20;
+    background: #fff0df;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0008;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.modal-content {
+    background: white;
+    width: 400px;
+    max-width: 100%;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.modal-content h2 {
+    margin-bottom: 15px;
+}
+
+.modal-content label {
+    display: block;
+    margin: 12px 0 5px;
+    font-size: 13px;
+}
+
+.modal-content input,
+.modal-content select {
+    width: 100%;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cancel {
+    background: #eee;
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #222;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 8px;
+    display: none;
+}
+
+@media(max-width: 950px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .middle, .bottom {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width: 650px) {
+    body {
+        padding: 0;
+    }
+
+    .container {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-bottom: 1px solid #eee;
+    }
+
+    .sidebar .bottom {
+        margin-top: 10px;
+    }
+
+    .main {
+        padding: 15px;
+    }
+
+    .header {
+        flex-wrap: wrap;
+    }
+
+    .stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .toolbar {
+        flex-wrap: wrap;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo">
+        <span>M</span> PinkStock
+    </div>
+
+    <button class="active" onclick="showPage('dashboard',this)">▣ Dashboard</button>
+    <button onclick="showPage('products',this)">▤ Products</button>
+    <button onclick="showPage('orders',this)">🛒 Orders</button>
+    <button onclick="showPage('customers',this)">♙ Customers</button>
+    <button onclick="showPage('analytics',this)">▥ Analytics</button>
+    <button onclick="showPage('categories',this)">▱ Categories</button>
+    <button onclick="showPage('promotions',this)">◇ Promotions</button>
+    <button onclick="showPage('inventory',this)">▦ Inventory</button>
+    <button onclick="showPage('feedback',this)">☆ Feedback / Reviews</button>
+    <button onclick="showPage('notifications',this)">♧ Notifications</button>
+
+    <div class="bottom">
+        <button onclick="showPage('profile',this)">♙ Profile</button>
+        <button onclick="showPage('settings',this)">⚙ Settings</button>
+        <button onclick="notify('You are using demo mode.')">⇥ Logout</button>
+    </div>
+
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+    <div class="header">
+        <h1 id="pageTitle">Product Overview</h1>
+        <button onclick="openModal()">＋ New Product</button>
+    </div>
+
+    <!-- DASHBOARD -->
+    <section class="page active" id="dashboard">
+
+        <div class="stats">
+
+            <div class="card">
+                <h3>Total Products Live 📦</h3>
+                <div class="number" id="totalProducts">6</div>
+                <div class="green">+12.5%</div>
+                <div class="small">Products currently listed</div>
+            </div>
+
+            <div class="card">
+                <h3>Inventory Low Items ⚠️</h3>
+                <div class="number" id="lowItems">3</div>
+                <div class="red">Needs attention</div>
+                <div class="small">Items need restocking</div>
+            </div>
+
+            <div class="card">
+                <h3>Monthly Revenue 💵</h3>
+                <div class="number">₱94,521</div>
+                <div class="green">+18.3%</div>
+                <div class="small">Last month: ₱67,342</div>
+            </div>
+
+            <div class="card">
+                <h3>Orders Awaiting 🛒</h3>
+                <div class="number" id="pendingOrders">2</div>
+                <div class="green">New orders today</div>
+                <div class="small">Waiting for processing</div>
+            </div>
+
+        </div>
+
+        <div class="middle">
+
+            <!-- SALES CHART -->
+            <div class="card">
+                <h2 class="card-title">Sales Trends</h2>
+
+                <div class="chart" id="salesChart">
+                </div>
+
+                <p class="small" style="margin-top:12px">
+                    Monthly sales performance
+                </p>
+            </div>
+
+            <!-- PROMOTION -->
+            <div class="card">
+                <h2 class="card-title">Promotion Performance</h2>
+
+                <div class="promotion">
+
+                    <div class="promo-card">
+                        <h3>Coupon Usage</h3>
+                        <h2>78.2%</h2>
+                        <span class="green">+6.4%</span>
+                    </div>
+
+                    <div class="promo-card">
+                        <h3>Conversion Rate</h3>
+                        <h2>12.8%</h2>
+                        <span class="red">-1.7%</span>
+                    </div>
+
+                    <div class="promo-card">
+                        <h3>Revenue</h3>
+                        <h2>₱12,450</h2>
+                        <span class="green">+9.1%</span>
+                    </div>
+
+                    <div class="promo-card">
+                        <h3>Average Discount</h3>
+                        <h2>₱5.45</h2>
+                        <span class="red">-0.7%</span>
+                    </div>
+
+                </div>
+
+                <button class="report"
+                onclick="showPage('analytics')">
+                    View Full Campaign Report →
+                </button>
+
+            </div>
+        </div>
+
+        <div class="bottom">
+
+            <!-- INVENTORY WARNINGS -->
+            <div class="card">
+                <h2 class="card-title">Inventory Warnings</h2>
+                <div id="warnings"></div>
+            </div>
+
+            <!-- CUSTOMER OVERVIEW -->
+            <div class="card">
+                <h2 class="card-title">Customer Overview</h2>
+
+                <div class="age">
+                    <span>18-24</span>
+                    <div class="age-bar">
+                        <span style="width:80%"></span>
+                    </div>
+                    10.3%
+                </div>
+
+                <div class="age">
+                    <span>25-34</span>
+                    <div class="age-bar">
+                        <span style="width:75%"></span>
+                    </div>
+                    24.3%
+                </div>
+
+                <div class="age">
+                    <span>35-44</span>
+                    <div class="age-bar">
+                        <span style="width:65%"></span>
+                    </div>
+                    19.9%
+                </div>
+
+                <div class="age">
+                    <span>45-64</span>
+                    <div class="age-bar">
+                        <span style="width:55%"></span>
+                    </div>
+                    18.4%
+                </div>
+
+                <div class="age">
+                    <span>65+</span>
+                    <div class="age-bar">
+                        <span style="width:30%"></span>
+                    </div>
+                    7.5%
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="page" id="products">
+
+        <div class="card">
+            <h2>Product Management</h2>
+
+            <div class="toolbar">
+                <input type="text" id="search"
+                placeholder="Search products..."
+                oninput="renderProducts()">
+
+                <button class="primary" onclick="openModal()">
+                    + Add Product
+                </button>
+            </div>
+
+            <div style="overflow-x:auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="productList"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ORDERS -->
+    <section class="page" id="orders">
+        <div class="card">
+            <h2>Customer Orders</h2>
+
+            <div style="overflow-x:auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="orderList"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- CUSTOMERS -->
+    <section class="page" id="customers">
+        <div class="card">
+            <h2>Customer Information</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Total Orders</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Alex Rivera</td>
+                        <td>alex@email.com</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>Jamie Cruz</td>
+                        <td>jamie@email.com</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>Sam Torres</td>
+                        <td>sam@email.com</td>
+                        <td>12</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section class="page" id="analytics">
+        <div class="card">
+            <h2>Business Analytics</h2>
+            <br>
+            <h3>Total Revenue: ₱94,521</h3>
+            <br>
+            <h3>Total Orders: 932</h3>
+            <br>
+            <h3>Total Customers: 2,105</h3>
+            <br>
+            <h3>Business Growth: 18.3%</h3>
+            <br>
+            <p class="small">Sample business analytics data.</p>
+        </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="page" id="categories">
+        <div class="card">
+            <h2>Product Categories</h2>
+            <br>
+            <p>Electronics</p><br>
+            <p>Accessories</p><br>
+            <p>Food</p><br>
+            <p>Clothing</p>
+        </div>
+    </section>
+
+    <!-- PROMOTIONS -->
+    <section class="page" id="promotions">
+        <div class="card">
+            <h2>Promotions and Discounts</h2>
+            <br>
+            <p>Welcome Sale - 10% Discount</p>
+            <br>
+            <p>Special Offer - Selected Products</p>
+            <br>
+            <button class="primary"
+            onclick="notify('Promotion created successfully!')">
+                + Create Promotion
+            </button>
+        </div>
+    </section>
+
+    <!-- INVENTORY -->
+    <section class="page" id="inventory">
+        <div class="card">
+            <h2>Inventory Management</h2>
+
+            <div style="overflow-x:auto">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Available Stock</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryList"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEEDBACK -->
+    <section class="page" id="feedback">
+        <div class="card">
+            <h2>Customer Feedback / Reviews</h2>
+            <br>
+            <p>★★★★★ Great product quality!</p>
+            <br>
+            <p>★★★★☆ Good customer service!</p>
+            <br>
+            <p>★★★★★ Affordable and reliable!</p>
+        </div>
+    </section>
+
+    <!-- NOTIFICATIONS -->
+    <section class="page" id="notifications">
+        <div class="card">
+            <h2>Notifications</h2>
+            <br>
+            <p>🔔 Some products are running low on stock.</p>
+            <br>
+            <p>📦 New customer orders are waiting.</p>
+            <br>
+            <p>⭐ A customer submitted a review.</p>
+        </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="page" id="profile">
+        <div class="card">
+            <h2>Business Profile</h2>
+            <br>
+            <p>Store Name: PinkStock Shop</p>
+            <br>
+            <p>Account Type: Business Owner</p>
+            <br>
+            <p>Email: owner@example.com</p>
+        </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="page" id="settings">
+        <div class="card">
+            <h2>Settings</h2>
+            <br>
+            <label>Store Name</label>
+            <br><br>
+            <input type="text" value="PinkStock Shop">
+            <br><br>
+            <label>Currency</label>
+            <br><br>
+            <select>
+                <option>Philippine Peso (₱)</option>
+                <option>US Dollar ($)</option>
+            </select>
+            <br><br>
+            <button class="primary"
+            onclick="notify('Settings saved!')">
+                Save Settings
+            </button>
+        </div>
+    </section>
+
+</main>
+</div>
+
+<!-- ADD PRODUCT MODAL -->
+<div class="modal" id="productModal">
+
+    <div class="modal-content">
+
+        <h2>Add New Product</h2>
+
+        <form id="productForm">
+
+            <label>Product Name</label>
+            <input type="text" id="productName"
+            placeholder="Enter product name" required>
+
+            <label>Category</label>
+            <select id="productCategory">
+                <option>Electronics</option>
+                <option>Accessories</option>
+                <option>Food</option>
+                <option>Clothing</option>
+            </select>
+
+            <label>Product Price (₱)</label>
+            <input type="number" id="productPrice"
+            placeholder="Enter price" min="0" step="0.01" required>
+
+            <label>Stock Quantity</label>
+            <input type="number" id="productStock"
+            placeholder="Enter quantity" min="0" required>
+
+            <div class="modal-buttons">
+
+                <button type="button" class="cancel"
+                onclick="closeModal()">
+                    Cancel
+                </button>
+
+                <button type="submit" class="primary">
+                    Save Product
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+// PRODUCT DATABASE (SAMPLE DATA)
+
+let products = [
+    {
+        name: "Wireless Mouse",
+        category: "Electronics",
+        price: 450,
+        stock: 5
+    },
+    {
+        name: "Pink Phone Case",
+        category: "Accessories",
+        price: 180,
+        stock: 10
+    },
+    {
+        name: "USB Flash Drive",
+        category: "Electronics",
+        price: 299,
+        stock: 15
+    },
+    {
+        name: "Cheesy Banana Crunch",
+        category: "Food",
+        price: 35,
+        stock: 8
+    },
+    {
+        name: "Notebook",
+        category: "Accessories",
+        price: 55,
+        stock: 34
+    },
+    {
+        name: "Basic T-Shirt",
+        category: "Clothing",
+        price: 250,
+        stock: 22
+    }
+];
+
+// SAMPLE ORDERS
+
+let orders = [
+    {
+        id: "ORD-001",
+        customer: "Alex Rivera",
+        total: 1250,
+        status: "Pending"
+    },
+    {
+        id: "ORD-002",
+        customer: "Jamie Cruz",
+        total: 780,
+        status: "Processing"
+    },
+    {
+        id: "ORD-003",
+        customer: "Sam Torres",
+        total: 450,
+        status: "Completed"
+    }
+];
+
+// FORMAT MONEY
+
+function money(amount) {
+    return "₱" + Number(amount).toLocaleString("en-PH", {
+        minimumFractionDigits: 2
+    });
+}
+
+// PAGE NAVIGATION
+
+function showPage(pageId, button) {
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    document.getElementById(pageId).classList.add("active");
+
+    document.querySelectorAll(".sidebar button").forEach(btn => {
+        btn.classList.remove("active");
+    });
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+    let titles = {
+        dashboard: "Product Overview",
+        products: "Products",
+        orders: "Orders",
+        customers: "Customers",
+        analytics: "Analytics",
+        categories: "Categories",
+        promotions: "Promotions",
+        inventory: "Inventory",
+        feedback: "Feedback / Reviews",
+        notifications: "Notifications",
+        profile: "Profile",
+        settings: "Settings"
+    };
+
+    document.getElementById("pageTitle").textContent =
+        titles[pageId];
+
+    if (pageId === "products") renderProducts();
+    if (pageId === "inventory") renderInventory();
+    if (pageId === "orders") renderOrders();
+}
+
+// OPEN AND CLOSE MODAL
+
+function openModal() {
+    document.getElementById("productModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("productModal").style.display = "none";
+}
+
+// ADD PRODUCT FUNCTION
+
+document.getElementById("productForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    let name = document.getElementById("productName").value.trim();
+    let category = document.getElementById("productCategory").value;
+    let price = Number(document.getElementById("productPrice").value);
+    let stock = Number(document.getElementById("productStock").value);
+
+    if (!name || price < 0 || stock < 0) {
+        notify("Please enter valid product information.");
+        return;
+    }
+
+    products.push({
+        name: name,
+        category: category,
+        price: price,
+        stock: stock
+    });
+
+    this.reset();
+
+    closeModal();
+
+    updateDashboard();
+    renderProducts();
+    renderInventory();
+
+    notify("Product added successfully!");
+
+});
+
+// DISPLAY PRODUCTS
+
+function renderProducts() {
+
+    let search = document.getElementById("search").value.toLowerCase();
+
+    let filtered = products.filter(product =>
+        product.name.toLowerCase().includes(search)
+    );
+
+    document.getElementById("productList").innerHTML =
+        filtered.map((product, index) => `
+
+        <tr>
+            <td>${product.name}</td>
+            <td>${product.category}</td>
+            <td>${money(product.price)}</td>
+            <td>${product.stock}</td>
+            <td>
+                <span class="status ${product.stock <= 10 ? 'low' : ''}">
+                    ${product.stock <= 10 ? "Low Stock" : "In Stock"}
+                </span>
+            </td>
+            <td>
+                <button onclick="restock(${products.indexOf(product)})">
+                    Restock
+                </button>
+            </td>
+        </tr>
+
+    `).join("");
+
+}
+
+// INVENTORY MANAGEMENT
+
+function renderInventory() {
+
+    document.getElementById("inventoryList").innerHTML =
+        products.map((product, index) => `
+
+        <tr>
+            <td>${product.name}</td>
+            <td>${product.stock}</td>
+            <td>
+                <span class="status ${product.stock <= 10 ? 'low' : ''}">
+                    ${product.stock <= 10 ? "Low Stock" : "Available"}
+                </span>
+            </td>
+            <td>
+                <button onclick="restock(${index})">
+                    + Restock
+                </button>
+            </td>
+        </tr>
+
+    `).join("");
+
+}
+
+// RESTOCK PRODUCT
+
+function restock(index) {
+
+    let quantity = Number(prompt("Enter quantity to add:"));
+
+    if (!Number.isInteger(quantity) || quantity <= 0) {
+        notify("Please enter a valid quantity.");
+        return;
+    }
+
+    products[index].stock += quantity;
+
+    updateDashboard();
+    renderProducts();
+    renderInventory();
+
+    notify("Product successfully restocked!");
+
+}
+
+// INVENTORY WARNINGS
+
+function renderWarnings() {
+
+    let lowStock = products.filter(product => product.stock <= 15);
+
+    document.getElementById("warnings").innerHTML =
+        lowStock.slice(0, 4).map((product, index) => `
+
+        <div class="warning">
+
+            <strong>${product.stock}</strong>
+            &nbsp; ${product.name}
+
+            <button onclick="restock(${products.indexOf(product)})">
+                + Restock
+            </button>
+
+            <div class="small">Units remaining</div>
+
+            <div class="progress">
+                <span style="width:${Math.min(product.stock * 5, 100)}%">
+                </span>
+            </div>
+
+        </div>
+
+    `).join("") || "<p>All products have enough stock!</p>";
+
+}
+
+// UPDATE DASHBOARD
+
+function updateDashboard() {
+
+    document.getElementById("totalProducts").textContent =
+        products.length;
+
+    document.getElementById("lowItems").textContent =
+        products.filter(product => product.stock <= 10).length;
+
+    document.getElementById("pendingOrders").textContent =
+        orders.filter(order => order.status !== "Completed").length;
+
+    renderWarnings();
+
+}
+
+// DISPLAY ORDERS
+
+function renderOrders() {
+
+    document.getElementById("orderList").innerHTML =
+        orders.map((order, index) => `
+
+        <tr>
+            <td>${order.id}</td>
+            <td>${order.customer}</td>
+            <td>${money(order.total)}</td>
+            <td>
+                <span class="status">${order.status}</span>
+            </td>
+            <td>
+                <button onclick="completeOrder(${index})">
+                    Complete
+                </button>
+            </td>
+        </tr>
+
+    `).join("");
+
+}
+
+// COMPLETE ORDER
+
+function completeOrder(index) {
+
+    orders[index].status = "Completed";
+
+    renderOrders();
+    updateDashboard();
+
+    notify("Order marked as completed!");
+
+}
+
+// NOTIFICATION MESSAGE
+
+function notify(message) {
+
+    let toast = document.getElementById("toast");
+
+    toast.textContent = message;
+    toast.style.display = "block";
+
+    setTimeout(() => {
+        toast.style.display = "none";
+    }, 2500);
+
+}
+
+// SALES CHART
+
+function createChart() {
+
+    let chart = document.getElementById("salesChart");
+
+    let sales = [
+        45, 65, 55, 70, 40, 35, 60, 45,
+        95, 65, 50, 70, 55, 80, 45, 60,
+        35, 75, 55, 40, 65, 50, 70, 45
+    ];
+
+    chart.innerHTML = sales.map((value, index) => `
+
+        <div class="bar"
+        style="height:${value}%; ${index === 8 ? 'background:#ed1598;' : ''}">
+        </div>
+
+    `).join("");
+
+}
+
+// INITIALIZE PROGRAM
+
+createChart();
+updateDashboard();
+renderProducts();
+renderInventory();
+renderOrders();
+
+</script>
+
+</body>
+</html>
